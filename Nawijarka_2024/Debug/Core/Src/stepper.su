@@ -1,0 +1,12 @@
+../Core/Src/stepper.c:13:6:stepper_init	24	static
+../Core/Src/stepper.c:21:6:stepper_set_ramp_profile	24	static
+../Core/Src/stepper.c:29:6:stepper_set_continous	16	static
+../Core/Src/stepper.c:39:6:stepper_set_angle	24	static
+../Core/Src/stepper.c:58:6:stepper_imediate_stop	16	static
+../Core/Src/stepper.c:66:6:stepper_stop_with_profile	16	static
+../Core/Src/stepper.c:72:6:stepper_set_direction	16	static
+../Core/Src/stepper.c:80:6:stepper_set_speed	24	static
+../Core/Src/stepper.c:104:6:stepper_ramp_init	16	static
+../Core/Src/stepper.c:123:6:stepper_ramp_init_linear_mode	16	static
+../Core/Src/stepper.c:145:6:stepper_ramp_process	16	static
+../Core/Src/stepper.c:177:6:stepper_ramp_process_linear_mode	24	static

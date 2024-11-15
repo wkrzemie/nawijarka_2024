@@ -45,7 +45,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+struct stepper_s stepper = {0};
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -95,6 +95,14 @@ int main(void)
   /* Initialize interrupts */
   MX_NVIC_Init();
   /* USER CODE BEGIN 2 */
+  direction dir = CW;
+
+  HAL_Delay(3000);
+
+  stepper_init(&stepper, &htim2, TIM_CHANNEL_3);
+  stepper_set_ramp_profile(&stepper, LINEAR_SPEED, 340, 200, 200);
+  //stepper_set_angle(&stepper, dir, 2*360);
+ stepper_set_continous(&stepper, dir);
 
   /* USER CODE END 2 */
 
@@ -102,6 +110,10 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  stepper_ramp_process(&stepper);
+
+	  	  if(HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin) == 0)
+	  		  stepper_stop_with_profile(&stepper);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -167,7 +179,21 @@ static void MX_NVIC_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
+{
+	if(htim->Instance == stepper.timer.htim->Instance)
+	{
+		stepper.ustep_counter++;
 
+		if(angle == stepper.mode)
+		{
+			if(stepper.ustep_counter >= stepper.usteps_to_count)
+			{
+				stepper_set_speed(&stepper, 0);
+			}
+		}
+	}
+}
 /* USER CODE END 4 */
 
 /**
